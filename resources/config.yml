@@ -1,0 +1,16 @@
+---
+# Do not change this (Only for internal use)!
+config-version: 1
+
+worlds:
+  # World folder name
+  world:
+    # World time to set
+    time: day
+    # Stop time
+    stop: true
+  # World folder name with spaces
+  "example world":
+    time: night
+    stop: false
+...
