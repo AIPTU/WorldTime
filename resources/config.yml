@@ -1,15 +1,21 @@
 ---
 # Do not change this (Only for internal use)!
-config-version: 1
+config-version: 1.0
+
+# Message used when setting world time.
+# Available tags:
+# - {WORLD}: Show world folder name.
+# - {TIME}: Show world time.
+message: "Set the time of the {WORLD} world to {TIME}"
 
 worlds:
-  # World folder name
+  # World folder name.
   world:
-    # World time to set
+    # World time to set.
     time: day
     # Stop time
     stop: true
-  # World folder name with spaces
+  # World folder name with spaces.
   "example world":
     time: night
     stop: false

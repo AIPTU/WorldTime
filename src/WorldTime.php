@@ -1,17 +1,45 @@
 <?php
 
+/*
+ *
+ * Copyright (c) 2021 AIPTU
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ */
+
 declare(strict_types=1);
 
 namespace aiptu\worldtime;
 
-use pocketmine\lang\KnownTranslationFactory;
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
-use function gettype;
 use function rename;
+use function str_replace;
 
 final class WorldTime extends PluginBase
 {
+	private const CONFIG_VERSION = 1.0;
+
+	private ConfigProperty $configProperty;
+
 	public function onEnable(): void
 	{
 		$this->checkConfig();
@@ -19,11 +47,24 @@ final class WorldTime extends PluginBase
 		$this->checkWorld();
 	}
 
+	public function replaceVars(string $str, array $vars): string
+	{
+		foreach ($vars as $key => $value) {
+			$str = str_replace('{' . $key . '}', (string) $value, $str);
+		}
+		return $str;
+	}
+
+	public function getConfigProperty(): ConfigProperty
+	{
+		return $this->configProperty;
+	}
+
 	private function checkConfig(): void
 	{
 		$this->saveDefaultConfig();
 
-		if ($this->getConfig()->get('config-version', 1) !== 1) {
+		if (!$this->getConfig()->exists('config-version') || ($this->getConfig()->get('config-version', self::CONFIG_VERSION) !== self::CONFIG_VERSION)) {
 			$this->getLogger()->notice('Your configuration file is outdated, updating the config.yml...');
 			$this->getLogger()->notice('The old configuration file can be found at config.old.yml');
 
@@ -32,23 +73,17 @@ final class WorldTime extends PluginBase
 			$this->reloadConfig();
 		}
 
-		foreach ([
-			'worlds' => 'array',
-		] as $option => $expectedType) {
-			if (($type = gettype($this->getConfig()->getNested($option))) !== $expectedType) {
-				throw new \TypeError("Config error: Option ({$option}) must be of type {$expectedType}, {$type} was given");
-			}
-		}
+		$this->configProperty = new ConfigProperty($this->getConfig());
 	}
 
 	private function checkWorld(): void
 	{
-		foreach ($this->getConfig()->getAll()['worlds'] as $worlds => $value) {
+		foreach ($this->getConfigProperty()->getPropertyArray('worlds', []) as $worlds => $value) {
 			$this->getServer()->getWorldManager()->loadWorld($worlds);
 
 			$world = $this->getServer()->getWorldManager()->getWorldByName($worlds);
 			$time = $value['time'];
-			$stop = (bool) $value['stop'];
+			$stop = $value['stop'];
 			if ($world !== null) {
 				match ($time) {
 					'day' => $time = World::TIME_DAY,
@@ -63,7 +98,11 @@ final class WorldTime extends PluginBase
 				if ($stop) {
 					$world->stopTime();
 				}
-				$this->getLogger()->info($this->getServer()->getLanguage()->translate(KnownTranslationFactory::commands_time_set((string) $time)));
+				$message = $this->getConfigProperty()->getPropertyString('message', 'Set the time of the {WORLD} world to {TIME}');
+				$this->getLogger()->notice(TextFormat::colorize($this->replaceVars($message, [
+					'WORLD' => $world->getFolderName(),
+					'TIME' => $time,
+				])));
 			}
 		}
 	}
