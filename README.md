@@ -1,6 +1,8 @@
 # WorldTime
 
-[![Discord](https://img.shields.io/discord/830063409000087612?color=7389D8&label=discord)](https://discord.com/invite/EggNF9hvGv)
+[![](https://img.shields.io/discord/830063409000087612?color=7389D8&label=discord)](https://discord.com/invite/EggNF9hvGv)
+[![](https://poggit.pmmp.io/shield.state/WorldTime)](https://poggit.pmmp.io/p/WorldTime)
+[![](https://poggit.pmmp.io/shield.dl.total/WorldTime)](https://poggit.pmmp.io/p/WorldTime)
 
 A PocketMine-MP plugin to set time and stop time easily.
 
@@ -45,5 +47,5 @@ worlds:
 # Additional Notes
 
 - If you find bugs or want to give suggestions, please visit [here](https://github.com/AIPTU/WorldTime/issues).
-- We accept any contributions! If you want to contribute please make a pull request in [here](https://github.com/AIPTU/WorldTime/pulls).
+- We accept all contributions! If you want to contribute, please make a pull request in [here](https://github.com/AIPTU/WorldTime/pulls).
 - Icons made from [www.flaticon.com](https://www.flaticon.com)
