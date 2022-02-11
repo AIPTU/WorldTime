@@ -29,7 +29,6 @@ declare(strict_types=1);
 namespace aiptu\worldtime;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\utils\TextFormat;
 use pocketmine\world\World;
 use function rename;
 use function str_replace;
@@ -38,13 +37,11 @@ final class WorldTime extends PluginBase
 {
 	private const CONFIG_VERSION = 1.0;
 
-	private ConfigProperty $configProperty;
-
 	public function onEnable(): void
 	{
 		$this->checkConfig();
 
-		$this->checkWorld();
+		$this->loadWorld();
 	}
 
 	public function replaceVars(string $str, array $vars): string
@@ -55,30 +52,23 @@ final class WorldTime extends PluginBase
 		return $str;
 	}
 
-	public function getConfigProperty(): ConfigProperty
-	{
-		return $this->configProperty;
-	}
-
 	private function checkConfig(): void
 	{
 		$this->saveDefaultConfig();
 
 		if (!$this->getConfig()->exists('config-version') || ($this->getConfig()->get('config-version', self::CONFIG_VERSION) !== self::CONFIG_VERSION)) {
-			$this->getLogger()->notice('Your configuration file is outdated, updating the config.yml...');
-			$this->getLogger()->notice('The old configuration file can be found at config.old.yml');
-
-			rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config.old.yml');
-
+			$this->getLogger()->warning('An outdated config was provided attempting to generate a new one...');
+			if (!rename($this->getDataFolder() . 'config.yml', $this->getDataFolder() . 'config.old.yml')) {
+				$this->getLogger()->critical('An unknown error occurred while attempting to generate the new config');
+				$this->getServer()->getPluginManager()->disablePlugin($this);
+			}
 			$this->reloadConfig();
 		}
-
-		$this->configProperty = new ConfigProperty($this->getConfig());
 	}
 
-	private function checkWorld(): void
+	private function loadWorld(): void
 	{
-		foreach ($this->getConfigProperty()->getPropertyArray('worlds', []) as $worlds => $value) {
+		foreach ($this->getConfig()->get('worlds', []) as $worlds => $value) {
 			$this->getServer()->getWorldManager()->loadWorld($worlds);
 
 			$world = $this->getServer()->getWorldManager()->getWorldByName($worlds);
@@ -98,11 +88,11 @@ final class WorldTime extends PluginBase
 				if ($stop) {
 					$world->stopTime();
 				}
-				$message = $this->getConfigProperty()->getPropertyString('message', 'Set the time of the {WORLD} world to {TIME}');
-				$this->getLogger()->notice(TextFormat::colorize($this->replaceVars($message, [
+				$message = $this->getConfig()->get('message', 'Set the time of the {WORLD} world to {TIME}');
+				$this->getLogger()->notice($this->replaceVars($message, [
 					'WORLD' => $world->getFolderName(),
 					'TIME' => $time,
-				])));
+				]));
 			}
 		}
 	}
