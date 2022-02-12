@@ -8,8 +8,8 @@ A PocketMine-MP plugin to set time and stop time easily.
 # Features
 
 - Customize messages when setting world time.
-- `{PREFIX}` can be used to display world folder name.
-- `{SUFFIX}` can be used to display world time.
+- `{WORLD}` can be used to display world folder name.
+- `{TIME}` can be used to display world time.
 - Lightweight and open source ❤️
 
 # Default Config
