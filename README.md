@@ -16,7 +16,7 @@ A PocketMine-MP plugin to set time and stop time easily.
 ```yaml
 ---
 # Do not change this (Only for internal use)!
-config-version: 1.0
+config-version: 1.1
 
 # Message used when setting world time.
 # Available tags:
