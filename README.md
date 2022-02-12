@@ -1,6 +1,5 @@
 # WorldTime
 
-[![](https://img.shields.io/discord/830063409000087612?color=7389D8&label=discord)](https://discord.com/invite/EggNF9hvGv)
 [![](https://poggit.pmmp.io/shield.state/WorldTime)](https://poggit.pmmp.io/p/WorldTime)
 [![](https://poggit.pmmp.io/shield.dl.total/WorldTime)](https://poggit.pmmp.io/p/WorldTime)
 

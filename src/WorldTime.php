@@ -35,7 +35,7 @@ use function str_replace;
 
 final class WorldTime extends PluginBase
 {
-	private const CONFIG_VERSION = 1.0;
+	private const CONFIG_VERSION = 1.1;
 
 	public function onEnable(): void
 	{

@@ -2,7 +2,7 @@
 name: WorldTime
 main: aiptu\worldtime\WorldTime
 src-namespace-prefix: aiptu\worldtime
-version: 1.0.0
+version: 1.1.0
 api: [4.0.0]
 author: AIPTU
 ...
