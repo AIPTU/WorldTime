@@ -1,22 +1,50 @@
----
-# Do not change this (Only for internal use)!
+# WorldTime Plugin Configuration
+
+# Configuration version (do not modify)
+# Specifies the version of the configuration format.
+# This value is used internally to handle configuration updates.
 config-version: 1.1
 
-# Message used when setting world time.
-# Available tags:
-# - {WORLD}: Show world folder name.
-# - {TIME}: Show world time.
-message: "Set the time of the {WORLD} world to {TIME}"
-
+# List of worlds and their time settings
+# Configure the time settings for each individual world.
 worlds:
-  # World folder name.
-  world:
-    # World time to set.
+  # Configuration for "world1"
+  world1:
+    # Time setting for "world1".
+    # Possible values: "day", "noon", "sunset", "night", "midnight",
+    # or a custom time value specified as an integer.
     time: day
-    # Stop time
-    stop: true
-  # World folder name with spaces.
-  "example world":
-    time: night
+
+    # Whether to stop the time in "world1" or not.
+    # If set to "true", the time in the world will be stopped at the configured value.
+    # If set to "false", the time will progress as normal.
     stop: false
-...
+
+  # Configuration for "world2"
+  world2:
+    # Time setting for "world2".
+    # Possible values: "day", "noon", "sunset", "night", "midnight",
+    # or a custom time value specified as an integer.
+    time: 6000
+
+    # Whether to stop the time in "world2" or not.
+    # If set to "true", the time in the world will be stopped at the configured value.
+    # If set to "false", the time will progress as normal.
+    stop: true
+
+  # Configuration for "world3"
+  world3:
+    # Time setting for "world3".
+    # Possible values: "day", "noon", "sunset", "night", "midnight",
+    # or a custom time value specified as an integer.
+    time: sunrise
+
+    # Whether to stop the time in "world3" or not.
+    # If set to "true", the time in the world will be stopped at the configured value.
+    # If set to "false", the time will progress as normal.
+    stop: false
+
+# Default message format for time setting log messages.
+# You can use "{WORLD}" as a placeholder for the world's name and "{TIME}" as a placeholder for the time value.
+# Example message: "Set the time of the {WORLD} world to {TIME}"
+message: 'Set the time of the {WORLD} world to {TIME}'
