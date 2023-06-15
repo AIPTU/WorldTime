@@ -3,7 +3,7 @@
 # Configuration version (do not modify)
 # Specifies the version of the configuration format.
 # This value is used internally to handle configuration updates.
-config-version: 1.1
+config-version: 1.2
 
 # List of worlds and their time settings
 # Configure the time settings for each individual world.

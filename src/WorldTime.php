@@ -24,7 +24,7 @@ use function rename;
 use function str_replace;
 
 class WorldTime extends PluginBase {
-	private const CONFIG_VERSION = 1.1;
+	private const CONFIG_VERSION = 1.2;
 
 	public function onEnable() : void {
 		$this->checkConfig();
