@@ -49,7 +49,7 @@ worlds:
 message: 'Set the time of the {WORLD} world to {TIME}.'
 ```
 
-# Additional Notes
+## Additional Notes
 
 - If you find bugs or want to give suggestions, please visit [here](https://github.com/AIPTU/WorldTime/issues).
 - We accept all contributions! If you want to contribute, please make a pull request in [here](https://github.com/AIPTU/WorldTime/pulls).
